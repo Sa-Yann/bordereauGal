@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./bordereaux.css">
+    <title>Bordereaux</title>
+</head>
+<body>
+    
+    <div div id="panel-right" class="panel_right">
+        <div id="page-content" class="page_content bordereaux">
+            <!--  POP UP DEPOSER UN BORDEREAU -->
+            <div id="newBordereauPopin" class="depotPopUp" style="display: none;">
+
+                
+
+                <form id="newBordereauPopin_form" name="newBordereauPopin_form" method="post">
+                    <input type="hidden" name="obj" value="<?= $_GET['obj'] ?>">
+                    <div class="depotPopup_Title">
+                        <h2>Déposer un bordereau</h2>
+                        <a href="javascript:void()" onclick="closeNewBordereauPopin()"><img src="./icons/cross.svg" alt="cross"></a>
+                    
+                    </div>
+                    <div class="text_1">
+                        <h5>Déclarez vos bordereaux rapidement et facilement en les téléchargeant puis suivez vos dépôts depuis votre espace
+                            en ligne! </h5>
+                    </div>
+                    <select id="newBordereauPopin_contractList" name="newBordereauPopin_contractList">
+                        <!-- <?php -->
+                        <!-- foreach ($contracts as $contract) { -->
+                        echo '<option>' . $contract . '</option>';
+                        <!-- }
+                        ?> -->
+                    </select>
+                    <br>
+                    <input id="newBordereauPopin_email" name="newBordereauPopin_email" type="email" placeholder="Adresse email">
+                    <br>
+                    <input id="newBordereauPopin_period" name="newBordereauPopin_period" type="month" min="2022-01"
+                        value="<?= (new \DateTime())->modify('-1 month')->format('Y-m'); ?>" placeholder="Periode du">
+                    <br>
+                    <h5 class="errorMsg">Votre précédent dépôt correspond à la période de [période]. Merci de déposer dans un second temps le(s) période(s)
+                    manquante(s)</h5>
+                    <br><br>
+                    <h4>Veuilez à respecter les indications ci-dessous
+                    avant de télécharger votre bordereau :</h4>
+                    <div class="flex_CtrCtr">
+                        <img class="deco" src="./icons/Component 36.svg" alt="drawing">
+                    </div>
+                    <div class="flex_AlignCtr">
+                        <div class="format_left">
+                            <div class="formats flex_AlignCtr">
+                                <h3>Format accepté</h3>
+                                <img src="./icons/Check.svg" alt="">
+                            </div>
+                            <div class="formats flex_AlignCtr">
+                                <h4>.pdf</h4>
+                                <h4>.csv</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="format_left">
+                            <div class="formats flex_AlignCtr">
+                                <h3>Format accepté</h3>
+                                <img src="./icons/crossRed.svg" alt="">
+                            </div>
+                            <div class="formats flex_AlignCtr lineThrough">
+                                <h4>.xlsx</h4>
+                                <h4>.jpeg</h4>
+                                <h4>.png</h4>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <ul>
+                        <li>Vos dépôts doivent être réalisés avant le 30 de chaque mois</li>
+                        <li>Le bordereau transmis doit correspondre au contrat et à la période sélectionnés.</li>
+                        <li>Format accepté : PDF et CSV</li>
+                    </ul>
+
+                    <!-- <input id="newBordereauPopin_file" name="newBordereauPopin_file" type="file" placeholder="télécharger le bordereau"> -->
+                    <!-- Input Type File -->
+                    
+                    <div class="posRelative_50">
+                        <div class="file-input">
+                            <input id="newBordereauPopin_file" type="file" name="newBordereauPopin_file" class="file-input" />
+                            <label class="file-input__label" for="newBordereauPopin_file">
+                                <img src="./icons/ic_file_download.svg" alt="download">
+                                <span>Télécharger le bordereau</span></label>
+                        </div>
+                    </div>
+                    <div class="marginTop70PX"></div>
+                    <h6 class="errorMsg">Le bordereau déposé n’est pas aux formats attendus. Merci de déposer votre bordereau au format <strong>PDF numérique</strong> ou <strong>CSV
+                    numérique</strong>.</h6>
+                    <h5 class="ifnot">Vous n’avez pas de logiciel de gestion ?</h5>
+                    <a class="ahref" href=""><h6 class="model">Télécharger notre model de bordereau</h6></a>
+                    <h4 class="notice">Déclarez vos bordereaux rapidement et facilement en les téléchargeant puis suivez vos dépôts depuis votre espace en
+                    ligne !</h4>
+                
+                    <!-- Input Type File End-->
+
+                    <div class="uploadedDoc flex_AlignCtr">
+                        <div class="square"></div>
+                        <div class="squareTxt">
+                            <h5>Bordereau234.pdf</h5>
+                            <div class="flex_CtrCtr">
+                                <h5 class="underlineGrey">Remplacer</h5>
+                                <h5 class="underlineGrey">Supprimer</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uploadedDoc flex_AlignCtr">
+                        <div class="square"></div>
+                        <div class="squareTxt">
+                            <h5>Bordereau234.pdf</h5>
+                            <div class="flex_CtrCtr">
+                                <h5 class="underlineGrey">Remplacer</h5>
+                                <h5 class="underlineGrey">Supprimer</h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br><br>
+                    <div class="flex_CtrCtr">
+                        <button class="unvalidDepot" type="submit" value="Valider le dépôt">Valider le dépôt</button>
+                    </div>
+                    <br>
+                    <div class="flex_CtrCtr">
+                        <button class="validDepot" type="submit" value="Valider le dépôt">Valider le dépôt</button>
+                    </div>
+                    
+                    <!-- <input type="submit" value="Valider le dépôt"> -->
+
+                </form>
+                
+            </div>
+            
+            <!-- POP PUP VALIDATION DE DEPOT -->
+            <!-- <?php if($successfulInsert) { ?> -->
+            <div id="resultPopin" class="popUp">
+                <img src="./icons/checkedBlue.svg" alt="checked">
+                <div class="allText_popUp">
+                    <h2>Votre bordereau a bien été déposé</h2>
+                    <h4>Bravo vous avez bien téléchargé votre bordereau pour le contrat “nom du contrat”.</h4>
+                    <div class="flex_AlignCtr">
+                        <button class="btnValider" onclick="document.getElementById('resultPopin').style.display = 'none';">Valider et fermer</button>
+                        <button class="btnValider" onclick="newBordereau(
+                            // '<?= $_POST['newBordereauPopin_contractList'] ?>'
+                            )">Valider et déposer</button>
+                        <button class="btnCancel" onclick="document.getElementById('resultPopin').style.display = 'none';">Annuler</button>
+                        <!-- <button class="btnClose" onclick="document.getElementById('resultPopin').style.display = 'none';">Fermer</button> -->
+                        <!-- <button class="btnDepot" onclick="newBordereau('<?= $_POST['newBordereauPopin_contractList'] ?>')">Déposer à nouveau</button> -->
+                    </div>
+                </div>
+            </div>
+            <!-- <?php } ?> -->
+            
+            <div class="titleContainer flex_SpaceBtwn">
+                <div class="title flex_AlignCtr">
+                    <img src="./icons/galian-logo.svg" alt="logo">
+                    <h1 class="h1">Déclaration des bordereaux</h1>
+                </div>
+                <!-- <div class="searchInput flex_SpaceBtwn">
+                    <input id="bordereauSearchWord" type="text" placeholder="ex : nom du contrat">
+                    <button class="flex_CtrCtr" onclick="bordereauSearch()">
+                        <img src="./icons/searchBlack.svg" alt="" class="searchIcon">
+                    </button>
+                </div> -->
+            </div>
+            
+ 
+            <br><br>
+            <table class="parentTable">
+                <thead class="thead_Parent">
+                    <tr>
+                        <th>
+                            <h3>Nom du contrat</h3>
+                        </th>
+                        <th>
+                            <h3>Numéro du contrat</h3>
+                        </th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <!-- <?php
+                                    $contracts = [];
+                                    // Affichage des contrats
+                                    while ($Var0 = $dataBase->rsByFetchArray($Res0)) {
+                                        // Ligne de contrat
+                                        $contracts[] = $Var0["PI04"];
+                                        $sqlBordereau = sprintf("SELECT * FROM bordereau WHERE PI04 ='%s' ORDER BY date_add DESC", $Var0["PI04"]);
+                                        $resBordereau = $dataBase->executeSelect($sqlBordereau) ;
+                            ?> -->
+                <tbody class="tbody_Parent">
+                    <tr>
+                        <th class="flex_AlignCtr">
+                            <img src="./icons/Union_blue.svg" alt="logo">
+                            <h3>Versalis Solution</h3>
+                        </th>
+                        <td class="numContrat">
+                            <h3 class="flex_CtrCtr">SOLU-12-000090
+                                <!-- <?= $Var0["PI04"] ?> -->
+                            </h3>
+                        </td>
+                        <td class="td_afficher_Btn">
+                            <div class="flex_AlignCtr_Right">
+                                <button class="afficher_Btn" onclick="showContractHistory()">
+                                    <div class="flex_CtrCtr">
+                                        <h3>Afficher l'historique</h3>
+                                        <img src="./icons/fleche.svg" alt="fleche">
+                                    </div>
+                                </button>
+                            </div>
+            
+                        </td>
+                        <td class="td_deposer_Btn ">
+                            <div class="flex_CtrCtr">
+                                <button class="deposer_Btn" onclick="newBordereau()">Déposer un bordereau</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="flex_AlignCtr">
+                            <img src="./icons/Union_blue.svg" alt="logo">
+                            <h3>Versalis Solution</h3>
+                        </th>
+                        <td class="numContrat">
+                            <h3 class="flex_CtrCtr">SOLU-12-000090
+                                <!-- <?= $Var0["PI04"] ?> -->
+                            </h3>
+                        </td>
+                        <td class="td_afficher_Btn">
+                            <div class="flex_AlignCtr_Right">
+                                <button class="afficher_Btn_Active" onclick="showContractHistory()">
+                                    <div class="flex_CtrCtr">
+                                        <h3>Afficher l'historique</h3>
+                                        <img src="./icons/fleche.svg" alt="fleche">
+                                    </div>
+                                </button>
+                            </div>
+            
+                        </td>
+                        <td class="td_deposer_Btn ">
+                            <div class="flex_CtrCtr">
+                                <button class="deposer_Btn" onclick="newBordereau()">Déposer un bordereau</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Ligne de l'historique d'un contrat -->
+                    <tr style="max-height:30px;">
+                        <th colspan="4" class="tdColspan4_Container">
+                            <div class=" historyTitle_Cross flex_SpaceBtwn">
+                                <h3 class="title_Hist">historique des dêpots</h3>
+                                <img class="crossIcon" src="./icons/cross.svg" alt="cross">
+                            </div>
+                            <table class="historyTable">
+                                <thead class="thead_history">
+                                    <tr>
+                                        <th>
+                                            <h4>Fichier</h4>
+                                        </th>
+                                        <th>
+                                            <h4>Date de dépôt</h4>
+                                        </th>
+                                        <th>
+                                            <h4>Période</h4>
+                                        </th>
+                                        <th>
+                                            <h4>Montant</h4>
+                                        </th>
+                                        <th>
+                                            <h4>Statut</h4>
+                                        </th>
+                                        <th>
+                                            <h4>Motif de statut</h4>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody_history" >
+                                    <!-- <?php while($varBordereau = $dataBase->rsByFetchArray($resBordereau)) { ?> -->
+                                    <tr>
+                                        <td><button class="flex_CtrCtr" onclick="showAvisReglement(
+                                                                                                                            // <?= $varBordereau['id'] ?>
+                                                                                                                            )">
+                                            <img src="./icons/doc.svg" alt="document">
+                                            <h3>Boredereau001.pdf</h3>
+                                        </button>
+                                        </td>
+                                        <td class="dateContent">
+                                            02/05/2022
+                                            <!-- <?= $varBordereau['fichier'] ?> -->
+                                        </td>
+                                        <td>
+                                            Mai 2022
+                                            <!-- <?= (new \DateTimeImmutable($varBordereau['periode']))->format('m/Y') ?> -->
+                                        </td>
+                                        <td>
+                                            34
+                                            <!-- <?= $varBordereau['montant'] / 100 ?> -->
+                                            &euro;
+                                        </td>
+                                        <td class="processing">
+                                            En cours
+                                            <!-- <?= $varBordereau['statut'] ?> -->
+                                        </td>
+                                        <td>
+                                            Lorem ipsum dolorem
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><button class="flex_CtrCtr"
+                                                onclick="showAvisReglement(
+                                                                                                                                                                // <?= $varBordereau['id'] ?>
+                                                                                                                                                                )">
+                                                <img src="./icons/doc.svg" alt="document">
+                                                <h3>Boredereau001.pdf</h3>
+                                            </button>
+                                        </td>
+                                        <td class="dateContent">
+                                            01/04/2022
+                                            <!-- <?= $varBordereau['fichier'] ?> -->
+                                        </td>
+                                        <td>
+                                            Mars 2022
+                                            <!-- <?= (new \DateTimeImmutable($varBordereau['periode']))->format('m/Y') ?> -->
+                                        </td>
+                                        <td>
+                                            En calcul ...
+                                            <!-- <?= $varBordereau['montant'] / 100 ?> -->
+                                            <!-- &euro; -->
+                                        </td>
+                                        <td class="coming">
+                                            À venir
+                                            <!-- <?= $varBordereau['statut'] ?> -->
+                                        </td>
+                                        <td>
+                                            Lorem ipsum dolorem
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><button class="flex_CtrCtr"
+                                                onclick="showAvisReglement(
+                                                                                                                                                                // <?= $varBordereau['id'] ?>
+                                                                                                                                                                )">
+                                                <img src="./icons/doc.svg" alt="document">
+                                                <h3>Boredereau001.pdf</h3>
+                                            </button>
+                                        </td>
+                                        <td class="dateContent">
+                                            02/05/2022
+                                            <!-- <?= $varBordereau['fichier'] ?> -->
+                                        </td>
+                                        <td>
+                                            Mai 2022
+                                            <!-- <?= (new \DateTimeImmutable($varBordereau['periode']))->format('m/Y') ?> -->
+                                        </td>
+                                        <td>
+                                            34
+                                            <!-- <?= $varBordereau['montant'] / 100 ?> -->
+                                            &euro;
+                                        </td>
+                                        <td class="payed">
+                                            Payé
+                                            <!-- <?= $varBordereau['statut'] ?> -->
+                                        </td>
+                                        <td>
+                                            Lorem ipsum dolorem
+                                        </td>
+                                    </tr>
+
+                                    <!-- <?php } ?> -->
+                                </tbody>
+                            </table>
+                        </th>
+                    </tr>
+                    <!-- <?php
+                                } // End while
+                                ?> -->
+                    <tr>
+                        <th class="flex_AlignCtr">
+                            <img src="./icons/Union_blue.svg" alt="logo">
+                            <h3>Versalis Solution</h3>
+                        </th>
+                        <td class="numContrat">
+                            <h3 class="flex_CtrCtr">SOLU-12-000090
+                                <!-- <?= $Var0["PI04"] ?> -->
+                            </h3>
+                        </td>
+                        <td class="td_afficher_Btn">
+                            <div class="flex_AlignCtr_Right">
+                                <button class="afficher_Btn" onclick="showContractHistory()">
+                                    <div class="flex_CtrCtr">
+                                        <h3>Afficher l'historique</h3>
+                                        <img src="./icons/fleche.svg" alt="fleche">
+                                    </div>
+                                </button>
+                            </div>
+                        
+                        </td>
+                        <td class="td_deposer_Btn ">
+                            <div class="flex_CtrCtr">
+                                <button class="deposer_Btn" onclick="newBordereau()">Déposer un bordereau</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="flex_AlignCtr">
+                            <img src="./icons/Union_blue.svg" alt="logo">
+                            <h3>Versalis Solution</h3>
+                        </th>
+                        <td class="numContrat">
+                            <h3 class="flex_CtrCtr">SOLU-12-000090
+                                <!-- <?= $Var0["PI04"] ?> -->
+                            </h3>
+                        </td>
+                        <td class="td_afficher_Btn">
+                            <div class="flex_AlignCtr_Right">
+                                <button class="afficher_Btn" onclick="showContractHistory()">
+                                    <div class="flex_CtrCtr">
+                                        <h3>Afficher l'historique</h3>
+                                        <img src="./icons/fleche.svg" alt="fleche">
+                                    </div>
+                                </button>
+                            </div>
+                    
+                        </td>
+                        <td class="td_deposer_Btn ">
+                            <div class="flex_CtrCtr">
+                                <button class="deposer_Btn" onclick="newBordereau()">Déposer un bordereau</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            
+                <!--  PAGINATION TABLE FOOTER -->
+                <tfoot>
+                    <tr>
+                        <!-- <th scope="row" colspan="1" class="flex_CtrCtr">footer</th> -->
+                        <th scope="row" colspan="4">
+                            <div class="footer_Container flex_CtrCtr">
+                                <div class="leftSide_PageInfo flex_CtrCtr">
+                                    <h5>Afficher</h5>
+                                    <select id="listLength" name="revPrincipal" required>
+                                        <option value="10" selected>10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <h5>résultats par page</h5>
+                                </div>
+                                <div class="rightSide_PageInfo ">
+            
+                                    <div class="numbers">
+                                        <nav aria-label="pagination" class="flex_CtrCtr">
+                                            <ul class="pagination flex_CtrCtr">
+                                                <li><a href=""><span aria-hidden="true"><img src="./icons/chevronLeft.svg"
+                                                                alt="chevronLeft" class="chevronLeft"></span><span
+                                                            class="visuallyhidden">previous set of pages</span></a>
+                                                </li>
+                                                <li class="li_pagination_Active"><a href=""><span class="visuallyhidden">page
+                                                        </span>1</a></li>
+                                                <li class="li_pagination_Non_Active"><a href="" aria-current="page"><span
+                                                            class="visuallyhidden">page </span>2</a></li>
+                                                <li class="li_pagination_Non_Active"><a href=""><span class="visuallyhidden">page
+                                                        </span>...</a></li>
+                                                <li class="li_pagination_Non_Active"><a href=""><span class="visuallyhidden">page
+                                                        </span>9</a></li>
+                                                <li><a href=""><span class="visuallyhidden">next set of pages</span><span
+                                                            aria-hidden="true"><img src="./icons/chevronRight.svg"
+                                                                alt="chevronRight" class="chevronRight"></span></a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div> <!-- fin page content -->
+    </div><!-- fin <div id="panel-right">-->
+    <div class="clr"></div>
+    <script>
+        function bordereauSearch() {
+                alert("Mot cherché : " + document.getElementById('bordereauSearchWord').value + "\nFonctionnement à définir dans la SFD");
+            }
+
+            function newBordereau(contractId) {
+                document.getElementById('newBordereauPopin').style.display = 'block';
+                document.getElementById('newBordereauPopin_contractList').value = contractId;
+
+            }
+
+            function closeNewBordereauPopin() {
+                document.getElementById('newBordereauPopin').style.display = 'none';
+            }
+
+            function showContractHistory(contractId) {
+                let el = document.getElementById('history_' + contractId);
+                el.style.display = (el.style.display === 'table-row' ? 'none' : 'table-row');
+            }
+
+            function showAvisReglement(bordereauId) {
+                alert('Avis de règlement du bordereau : ' + bordereauId)
+            }
+    </script>
+</body>
+</html>
